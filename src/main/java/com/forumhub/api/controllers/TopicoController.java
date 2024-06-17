@@ -1,6 +1,7 @@
 package com.forumhub.api.controllers;
 
 import com.forumhub.api.domain.topico.*;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,15 +38,17 @@ public class TopicoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DadosDetalhamentoTopico> detalherPeloId(@PathVariable UUID id) {
-        var topico = repository.getReferenceById(id);
+        var topico = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Topico não encontrado."));
         return ResponseEntity.ok(new DadosDetalhamentoTopico(topico));
     }
 
     @GetMapping("/curso/{nomeCurso}")
     public ResponseEntity<DadosDetalhamentoTopico> detalharPeloCurso(@PathVariable String nomeCurso) {
         var topico = repository.findByCurso(nomeCurso);
+        if (topico == null) {
+            throw new EntityNotFoundException("Topico do curso " + nomeCurso + " não encontrado");
+        }
         return ResponseEntity.ok(new DadosDetalhamentoTopico(topico));
-
     }
 
     @GetMapping("/ano/{ano}")
@@ -53,5 +56,21 @@ public class TopicoController {
         var topicos = repository.findByAno(ano, pageable);
         var dadosListagemTopicoPage = topicos.map(DadosListagemTopico::new);
         return ResponseEntity.ok(dadosListagemTopicoPage);
+    }
+
+    @PutMapping("/atualizar/{id}")
+    @Transactional
+    public ResponseEntity<DadosDetalhamentoTopico> atualizar(@PathVariable UUID id, @RequestBody @Valid DadosAtualizacaoTopico dados) {
+        var topico = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Topico não encontrado"));
+        topico.atualizarInformacoes(dados);
+        return ResponseEntity.ok(new DadosDetalhamentoTopico(topico));
+    }
+
+    @DeleteMapping("/excluir/{id}")
+    @Transactional
+    public ResponseEntity<Object> apagar(@PathVariable UUID id) {
+        var topico = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Topico não encontrado"));
+        topico.deletar();
+        return ResponseEntity.noContent().build();
     }
 }
