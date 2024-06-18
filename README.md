@@ -27,7 +27,6 @@ Bem-vindo ao FórumHub API! Este projeto foi desenvolvido como parte do Challeng
 - Spring Security
 - JWT
 - PostgreSQL
-- Outras dependências conforme arquivo pom.xml
 
 ---
 
