@@ -1,6 +1,8 @@
 # 📦 FórumHub API
 
-Bem-vindo ao FórumHub API! Este projeto foi desenvolvido como parte do Challenge Back End da Alura. O desafio consiste em criar uma API REST para gerenciar tópicos de um fórum, semelhante ao usado na plataforma Alura para discussão de cursos e projetos.
+Bem-vindo ao FórumHub API! Este projeto foi desenvolvido para criar uma API REST para gerenciar tópicos de um fórum, semelhante ao usado na plataforma Alura para discussão de cursos e projetos.
+
+O projeto tem como objetivo oferecer uma solução completa para gerenciar tópicos em um fórum, permitindo a criação, atualização, remoção e visualização de tópicos, além de fornecer autenticação e autorização para usuários.
 
 ## ⚙️ Funcionalidades
 
